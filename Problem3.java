@@ -1,44 +1,62 @@
 import java.util.Random;
 
 public class Problem3 {
-
-
-    private static void russianPeasant(int n, int m)
-    {
-    	int add = 0;
-    	int mult = 0;
-    	int y = n;
-    	int x = m;
-        int sum = 0;  
-
-        while (m > 0)
-        {
-
-             if ((m & 1) != 0)
-             {
-                 sum = sum + n;
-                 add++;
-             }
-
-            n = n*2;
-            m = m /2;
-            mult++;
-        }
-        System.out.println(y+"	"+x+"	"+add+"	"+mult+"	"+Math.abs(sum));
-        
-
-        
-
-    }
-     
-    // driver program
-    public static void main (String[] args) 
-    {
-       Random r = new Random();
-       int a = r.nextInt(1000)+1000;
-       int b = r.nextInt(1000)+100;
-       for (int i = 0;i <= 100000;i+=1000)
-    	   russianPeasant(a+i,b+i);
-    }
+public static void BruteForceClosestPair(long[][] P)
+{
+	double d = Double.POSITIVE_INFINITY;
+	for (int i=1;i < P.length-1;i++)
+	{
+		for (int j = i+1; j <P.length;j++)
+		{
+			double sqrt = Math.sqrt((P[i][0]-P[j][0])*(P[i][0]-P[j][0])+((P[i][1]-P[j][1])*(P[i][1]-P[j][1])));
+			
+			d = Math.min(d, sqrt);
+		}
+	}
+	
 }
 
+public static void BruteForceClosestPair2(long[][] P)
+{
+	double d = Double.POSITIVE_INFINITY;
+	for (int i=1;i < P.length-1;i++)
+	{
+		for (int j = i+1; j <P.length;j++)
+		{
+			double sqrt = ((P[i][0]-P[j][0])*(P[i][0]-P[j][0])+((P[i][1]-P[j][1])*(P[i][1]-P[j][1])));
+			
+			d = Math.min(d, sqrt);
+		}
+	}
+	
+}
+public static void main(String[] args) 
+{
+Random r = new Random();
+for (int x=1000;x < 4000;x+=1000)
+{
+long[][] A = new long[x][x];
+	for (int i=0;i < 10;i++)
+		
+		for (int j = 0; j <10;j++)
+		{
+			
+			A[i][j] = r.nextInt(1000)+1000000000;
+			long start = System.nanoTime();
+			BruteForceClosestPair(A);
+			long end = System.nanoTime();
+			long sresult = end - start;
+			
+			start = System.nanoTime();
+			BruteForceClosestPair2(A);
+			end = System.nanoTime();
+			long nsresult = end - start;
+			System.out.println("squareroot function: "+sresult/1000000 + " millisecond runtime."+"\n nonsquareroot function:  " + nsresult/1000000+" millisecond runtime.");
+		}
+}
+
+
+}
+
+
+}
